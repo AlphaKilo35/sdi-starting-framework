@@ -16,7 +16,7 @@ services:
       # 5173 is the default Node.js server, change if ports have been changed to something like 8080
   api:
     # Backend Express Server
-    build: api/
+    build: backend/
     container_name: 'backend'
     depends_on:
       - 'database'
@@ -30,10 +30,10 @@ services:
     container_name: postgres-database
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB_NAME=${POSTGRES_DB_NAME}
       # Any environment variables from within the .env file (this file is in the .gitignore, must be made locally with variables matching)
     ports:
       - '5432:5432'
       # Default Postgres Port, change is required
-    volume:
-      - $HOME/docker
+    #volume:
+      #- $HOME/docker
