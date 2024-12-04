@@ -1,17 +1,17 @@
 FROM node:20-alpine
 
-RUN mkdir -p /frontend
+RUN mkdir -p /backend
 
-WORKDIR /frontend
+WORKDIR /backend
 
-COPY . /frontend
+COPY . /backend
 
 RUN npm install
   #assuming node.js / react
 
-EXPOSE 5173
-  #Default node server port
+EXPOSE 3000
+  #Default express server port
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
   #Break up command in package.json
   # [ "npm", "run", "dev"] / ["npm", "start"] / ["npm", "run"]

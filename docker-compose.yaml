@@ -6,16 +6,22 @@ services:
   frontend:
   # GUI
     build: frontend/
+    container_name: 'frontend'
     depends_on:
       - 'database'
+    environment:
+      - VITE_PORT=${VITE_PORT}
     ports:
       - '5173:5173'
       # 5173 is the default Node.js server, change if ports have been changed to something like 8080
   api:
     # Backend Express Server
     build: api/
+    container_name: 'backend'
     depends_on:
       - 'database'
+    environment:
+      - EXPRESS_PORT=${EXPRESS_PORT}
     ports:
       - '3000:3000'
       # 3000 is default Express.js port, again - change if application has something different
