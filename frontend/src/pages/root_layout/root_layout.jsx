@@ -6,7 +6,7 @@ import NavBarComponent from '../../components/NavBar/NavBar.jsx'
 /* Import "Global" Contexts */
 
 /* Import "root" styling for every page. NavBar styling should be kept with componenet */
-//import './root_layout.css'
+import './root_layout.css'
 
 const Root_Layout = () => {
   return (
