@@ -1,13 +1,18 @@
 // Update with your config settings.
-require('dotenv').config({path: '../.env'});
+require('dotenv').config();
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
 module.exports = {
 
   development: {
     client: 'pg',
-    connection: process.env.DB_CONNECTION_STRING
+    connection: process.env.DB_CONNECTION_STRING,
+    pool: {
+      min:0,
+      max:10
+    }
   },
 
   staging: {
