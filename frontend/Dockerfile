@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-RUN mkdir -p /frontend
+#RUN mkdir -p /frontend
 
 WORKDIR /frontend
 
