@@ -1,19 +1,31 @@
 #Assumes Node.js React Frontend, Express.js API server, & PostgreSQL Database
 
+volumes:
+  postgres_volume:
+  node_modules:
+
 services:
   frontend:
   # GUI
     build: frontend/
     container_name: 'frontend'
     depends_on:
+        - backend
         - database
     env_file:
       - .env
     environment:
       - VITE_PORT=${VITE_PORT}
     ports:
-      - '5173:5173'
+      - ${VITE_PORT}:5173
       # 5173 is the default Node.js server, change if ports have been changed to something like 8080
+    volumes:
+      - type: bind
+        source: ./frontend/src
+        target: /frontend/src
+      - node_modules:/frontend/node_modules
+    networks:
+      - appnetwork
   backend:
     # Backend Express Server
     build: backend/
@@ -26,8 +38,14 @@ services:
     environment:
       - EXPRESS_PORT=${EXPRESS_PORT}
     ports:
-      - '3000:3000'
+      - ${EXPRESS_PORT}:3000
       # 3000 is default Express.js port, again - change if application has something different
+    volumes:
+      - type: bind
+        source: ./backend
+        target: /backend
+    networks:
+      - appnetwork
   database:
     image: postgres
     container_name: database
@@ -40,9 +58,16 @@ services:
       #- PGUSER=postgres #For Health Check
       # Any environment variables from within the .env file (this file is in the .gitignore, must be made locally with variables matching)
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/database
+    networks:
+      - appnetwork
     healthcheck:
       test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USERNAME} -d ${POSTGRES_DB_NAME}'" ]
       interval: 1s
       timeout: 3s
       retries: 3
+networks:
+  appnetwork:
+    driver: bridge
